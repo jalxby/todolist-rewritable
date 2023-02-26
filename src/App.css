@@ -7,11 +7,39 @@
     margin-right: 50px;
 }
 
+.fieldset {
+    width: 220px;
+}
+
 p,
 label {
     font: 1rem 'Fira Sans', sans-serif;
 }
 
-input {
+.input {
     margin: 0.4rem;
+    border: black 1px solid;
+}
+
+.error {
+    border: red 1px solid;
+}
+
+.error-message {
+    color: red;
+}
+
+.active-filter {
+    background-color: aquamarine;
+}
+
+.isDone {
+    opacity: 0.5;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex: 0 0 auto;
 }

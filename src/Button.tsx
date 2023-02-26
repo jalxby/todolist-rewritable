@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
+import './App.css'
 
 type ButtonPropsType = {
-    buttonTitle: string
-    onClickButtonHandler: () => void
+    callback: () => void
+    title: string
+    isActive: boolean
 }
-export const Button: FC<ButtonPropsType> = (props) => {
+
+export const Button: FC<ButtonPropsType> = ({callback, title, ...props}) => {
     return (
-        <div>
-            <button onClick={props.onClickButtonHandler}>{props.buttonTitle}</button>
-        </div>
+        <button className={`${props.isActive && 'active-filter'}`} onClick={callback}>{title}</button>
     );
 };
-
