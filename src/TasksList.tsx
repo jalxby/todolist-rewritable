@@ -29,19 +29,19 @@ export const TasksList: FC<TasksListProps> = ({tasks, toDoId, ...props}) => {
         }
         const className = `${t.isDone ? s.basic + ' ' + s.completed : s.basic}`
         return (
-            <li key={t.id}>
+            <div key={t.id}>
                 <Checkbox onChange={changeTaskStatusHandler} icon={<RadioButtonUncheckedRoundedIcon />} checked={t.isDone} checkedIcon={<TaskAltRoundedIcon />} />
                 <EditableSpan className={className} callback={updateTaskTitleWrapper} title={t.title}/>
                 <IconButton aria-label="delete" onClick={removeTaskHandler} color="primary">
                     <RemoveIcon/>
                 </IconButton>
-            </li>
+            </div>
         )
     })
 
     return (
         <div>
-            <ul>{tasksList}</ul>
+            <div>{tasksList}</div>
         </div>
     );
 };

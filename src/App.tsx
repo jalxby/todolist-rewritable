@@ -3,7 +3,7 @@ import {v1} from "uuid";
 import {ToDoList} from "./ToDoList";
 import './App.css'
 import {UniversalInput} from "./UniversalInput";
-import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 
 export type TodoListsType = {
@@ -115,7 +115,7 @@ export const App = () => {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container>
+                <Grid container style={{padding:'10px'}}>
                     <UniversalInput callback={addToDoList}/>
                 </Grid>
                 <Grid container spacing={3}>
@@ -125,20 +125,22 @@ export const App = () => {
                         if (tasks[t.id].filter === "COM") filteredTasks = tasks[t.id].data.filter(t => t.isDone)
                         return (
                             <Grid item>
-                            <ToDoList
-                                key={t.id}
-                                toDoId={t.id}
-                                title={t.title}
-                                tasks={filteredTasks}
-                                applyFilter={applyFilter}
-                                addNewTask={addNewTask}
-                                removeTask={removeTask}
-                                changeTaskStatus={changeTaskStatus}
-                                removeToDoList={removeToDoList}
-                                filter={tasks[t.id].filter}
-                                updateTaskTitle={updateTaskTitle}
-                                updateToDoTitle={updateToDoTitle}
-                            />
+                                <Paper style={{padding:'10px'}}>
+                                    <ToDoList
+                                        key={t.id}
+                                        toDoId={t.id}
+                                        title={t.title}
+                                        tasks={filteredTasks}
+                                        applyFilter={applyFilter}
+                                        addNewTask={addNewTask}
+                                        removeTask={removeTask}
+                                        changeTaskStatus={changeTaskStatus}
+                                        removeToDoList={removeToDoList}
+                                        filter={tasks[t.id].filter}
+                                        updateTaskTitle={updateTaskTitle}
+                                        updateToDoTitle={updateToDoTitle}
+                                    />
+                                </Paper>
                             </Grid>
                         )
                     })}
