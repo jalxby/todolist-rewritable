@@ -28,25 +28,26 @@ export const App = () => {
     let todolistId2 = v1();
 
     let [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
-        {id: todolistId1, title: "What to learn"},
-        {id: todolistId2, title: "What to buy"}
+        // {id: todolistId1, title: "What to learn"},
+        // {id: todolistId2, title: "What to buy"}
+
     ])
 
     let [tasks, setTasks] = useState<TasksStateType>({
-        [todolistId1]: {
-            data: [
-                {id: v1(), title: "HTML&CSS1111", isDone: false},
-                {id: v1(), title: "JS1111", isDone: true}
-            ],
-            filter: "ALL"
-        },
-        [todolistId2]: {
-            data: [
-                {id: v1(), title: "HTML&CSS22222", isDone: true},
-                {id: v1(), title: "JS2222", isDone: false}
-            ],
-            filter: "ACT"
-        }
+        // [todolistId1]: {
+        //     data: [
+        //         {id: v1(), title: "HTML&CSS1111", isDone: false},
+        //         {id: v1(), title: "JS1111", isDone: true}
+        //     ],
+        //     filter: "ALL"
+        // },
+        // [todolistId2]: {
+        //     data: [
+        //         {id: v1(), title: "HTML&CSS22222", isDone: true},
+        //         {id: v1(), title: "JS2222", isDone: false}
+        //     ],
+        //     filter: "ACT"
+        // }
     });
     const removeToDoList = (toDoId: string) => {
         setTodoLists(todoLists.filter(t => t.id !== toDoId))
