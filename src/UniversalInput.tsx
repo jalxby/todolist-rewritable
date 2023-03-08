@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import {IconButton} from "@mui/material";
+import {IconButton, TextField} from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
 type PropsType = {
@@ -25,7 +25,8 @@ export const UniversalInput = (props: PropsType) => {
     }
     return (
         <div>
-            <input value={value} onChange={inputHandler} type={'text'}/>
+            {/*<input value={value} onChange={inputHandler} type={'text'}/>*/}
+            <TextField value={value} onChange={inputHandler} id="outlined-basic" label="Required*" variant="outlined" size={'small'}/>
             <IconButton aria-label="delete" onClick={addNewTaskHandler} color="primary">
                 <AddBoxIcon/>
             </IconButton>
