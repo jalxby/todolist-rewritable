@@ -1,86 +1,79 @@
-import React, {ChangeEvent, FC, useState} from 'react';
-import './App.css'
-import {Button} from "./Button";
+import React, {FC} from 'react';
 import {TasksList} from "./TasksList";
-import {FilterType, TaskType} from "./App";
+import {DataType, FilterType} from "./App";
+import s from './ToDoList.module.css'
+import {UniversalInput} from "./UniversalInput";
+import {EditableSpan} from "./EditableSpan";
+import {Button, ButtonGroup, IconButton} from "@mui/material";
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 
 type ToDoListType = {
-    id: string
+    toDoId: string
     title: string
-    tasksList: Array<TaskType>
-    setFilter: (filter: FilterType, toDoId: string) => void
+    tasks: Array<DataType>
+    applyFilter: (toDoId: string, filter: FilterType) => void
+    addNewTask: (toDoId: string, title: string) => void
+    removeTask: (toDoId: string, taskId: string) => void
     removeToDoList: (toDoId: string) => void
-    removeTask: (taskId: string, toDoId: string) => void
-    changeTaskStatus: (taskId: string, toDoId: string, isDone: boolean) => void
-    addTask: (toDoId: string, taskTitle: string) => void
+    changeTaskStatus: (toDoId: string, taskId: string, isDone: boolean) => void
     filter: FilterType
+    updateTaskTitle: (toDoId: string, taskId: string, newTitle: string) => void
+    updateToDoTitle: (toDoId: string, newTitle: string) => void
 }
-// callback: () => void
 
-export const ToDoList: FC<ToDoListType> = (props) => {
-
-    const maxTaskTitle = 10
-    const [inputValue, setInputValue] = useState<string>('')
-    const [error, setError] = useState<string>('')
-
-    const addTaskHandler = () => {
-        if (inputValue.trim() === '') {
-            setError('TaskTitle is required!')
-        } else {
-            props.addTask(props.id, inputValue.trim())
-            setInputValue('')
-        }
-    }
-
-    const setInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.length > maxTaskTitle) {
-            setError('TaskTitle is too long')
-        } else {
-            setError('')
-        }
-        setInputValue(e.currentTarget.value)
-    }
-
+export const ToDoList: FC<ToDoListType> = (ToDoListProps) => {
+    const {toDoId, title, tasks, ...props} = ToDoListProps
     const removeToDoListHandler = () => {
-        props.removeToDoList(props.id)
+        props.removeToDoList(toDoId)
+    }
+    const addNewTaskWrapper = (title: string) => {
+        props.addNewTask(toDoId, title)
     }
 
-    const setAllFilterHandler = () => props.setFilter('ALL', props.id)
-    const setCOMFilterHandler = () => props.setFilter('COM', props.id)
-    const setACTFilterHandler = () => props.setFilter('ACT', props.id)
+    const updateToDoTitleWrapper = (title: string) => {
+        props.updateToDoTitle(toDoId, title)
+    }
+    const allFilterHandler = () => props.applyFilter(toDoId, 'ALL')
+    const actFilterHandler = () => props.applyFilter(toDoId, 'ACT')
+    const comFilterHandler = () => props.applyFilter(toDoId, 'COM')
 
     return (
-        <fieldset className={'fieldset'}>
-            <legend>
-                <span>What to learn</span>
-                <button
-                    onClick={removeToDoListHandler}
-                >x
-                </button>
-            </legend>
-            <input
-                className={`${'input'} ${error && 'error'}`}
-                type={"text"}
-                value={inputValue}
-                onChange={setInputHandler}
-            />
-            <button
-                disabled={inputValue.length > maxTaskTitle}
-                onClick={addTaskHandler}
-            >+
-            </button>
-            {error && <span className={'error-message'}>{error}</span>}
-            <TasksList
-                tasksList={props.tasksList}
-                removeTask={props.removeTask}
-                changeTaskStatus={props.changeTaskStatus}
-                toDoId={props.id}/>
-            <div className={'filters'}>
-                <Button isActive={props.filter === 'ALL'} callback={setAllFilterHandler} title={'ALL'}/>
-                <Button isActive={props.filter === 'ACT'} callback={setACTFilterHandler} title={'ACT'}/>
-                <Button isActive={props.filter === 'COM'} callback={setCOMFilterHandler} title={'COM'}/>
+        <div className={'toDoList'}>
+            <span>
+            <h3><EditableSpan className={''} title={title} callback={updateToDoTitleWrapper}/>
+                {/*<button onClick={removeToDoListHandler}>x</button>*/}
+            <IconButton aria-label="delete" onClick={removeToDoListHandler}  color="primary">
+                <BookmarkRemoveIcon/>
+            </IconButton>
+            </h3>
+                 </span>
+            <div>
+                <UniversalInput callback={addNewTaskWrapper}/>
             </div>
-        </fieldset>
+            <div>
+                <TasksList
+                    toDoId={toDoId}
+                    tasks={tasks}
+                    changeTaskStatus={props.changeTaskStatus}
+                    removeTask={props.removeTask}
+                    updateTaskTitle={props.updateTaskTitle}
+                />
+            </div>
+            <div>
+                {/*<Button style={`${props.filter === 'ALL' ? s.filtered : s.basic}`} title={'ALL'}*/}
+                {/*        callback={allFilterHandler}/>*/}
+                {/*<Button style={`${props.filter === 'ACT' ? s.filtered : s.basic}`} title={'ACT'}*/}
+                {/*        callback={actFilterHandler}/>*/}
+                {/*<Button style={`${props.filter === 'COM' ? s.filtered : s.basic}`} title={'COM'}*/}
+                {/*        callback={comFilterHandler}/>*/}
 
+                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                    <Button className={`${props.filter === 'ALL' ? s.filtered : s.basic}`} onClick={allFilterHandler}>ALL</Button>
+                    <Button className={`${props.filter === 'ACT' ? s.filtered : s.basic}`}onClick={actFilterHandler}>ACT</Button>
+                    <Button className={`${props.filter === 'COM' ? s.filtered : s.basic}`}onClick={comFilterHandler}>COM</Button>
+                </ButtonGroup>
+            </div>
+        </div>
     );
 };
+

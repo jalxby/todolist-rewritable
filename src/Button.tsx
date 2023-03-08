@@ -1,14 +1,13 @@
 import React, {FC} from 'react';
-import './App.css'
 
 type ButtonPropsType = {
-    callback: () => void
     title: string
-    isActive: boolean
+    callback: () => void
+    style?: string
 }
 
-export const Button: FC<ButtonPropsType> = ({callback, title, ...props}) => {
+export const Button: FC<ButtonPropsType> = ({title, callback,style}) => {
     return (
-        <button className={`${props.isActive && 'active-filter'}`} onClick={callback}>{title}</button>
+        <button className={style} onClick={callback}>{title}</button>
     );
 };

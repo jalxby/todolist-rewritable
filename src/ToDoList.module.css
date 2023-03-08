@@ -1,4 +1,10 @@
-.buttons {
-    display: flex;
-    justify-content: space-around;
+.basic{
+    border-color: dimgray;
+    background-color: dimgray;
+    opacity:0.5;
+}
+.filtered{
+    border-color: cornflowerblue;
+    background-color: cornflowerblue;
+    opacity:1;
 }

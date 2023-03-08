@@ -1,34 +1,46 @@
 import React, {ChangeEvent, FC} from 'react';
-import {TaskType} from "./App";
-import {useAutoAnimate} from "@formkit/auto-animate/react";
+import {DataType} from "./App";
+import s from './TaskList.module.css'
+import {EditableSpan} from "./EditableSpan";
+import {IconButton} from "@mui/material";
+import RemoveIcon from '@mui/icons-material/Remove';
 
-type TasksListType = {
-    tasksList: Array<TaskType>
+type TasksListProps = {
     toDoId: string
-    removeTask: (taskId: string, toDoId: string) => void
-    changeTaskStatus: (taskId: string, toDoId: string, isDone: boolean) => void
+    tasks: Array<DataType>
+    changeTaskStatus: (toDoId: string, taskId: string, isDone: boolean) => void
+    removeTask: (toDoId: string, taskId: string) => void
+    updateTaskTitle: (toDoId: string, taskId: string, newTitle: string) => void
 }
+export const TasksList: FC<TasksListProps> = ({tasks, toDoId, ...props}) => {
 
-export const TasksList: FC<TasksListType> = (props) => {
-    const [listRef] = useAutoAnimate<HTMLUListElement>()
-    const tasks = props.tasksList.map(t => {
+    const tasksList = tasks.map(t => {
+        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            props.changeTaskStatus(toDoId, t.id, e.currentTarget.checked)
+        }
+        const removeTaskHandler = () => {
+            props.removeTask(toDoId, t.id)
+        }
+        const updateTaskTitleWrapper = (newTitle: string) => {
+            props.updateTaskTitle(toDoId, t.id, newTitle)
+        }
+        const className = `${t.isDone ? s.basic + ' ' + s.completed : s.basic}`
         return (
             <li key={t.id}>
-                <input
-                    type={"checkbox"}
-                    checked={t.isDone}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, props.toDoId, e.currentTarget.checked)}/>
-                <span>{t.title}</span>
-                <button onClick={() => props.removeTask(t.id, props.toDoId)}>x</button>
+                <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
+                <EditableSpan className={className} callback={updateTaskTitleWrapper} title={t.title}/>
+                <IconButton aria-label="delete" onClick={removeTaskHandler} color="primary">
+                    <RemoveIcon/>
+                </IconButton>
             </li>
         )
     })
 
     return (
         <div>
-            <ul ref={listRef}>
-                {tasks}
-            </ul>
+            <ul>{tasksList}</ul>
         </div>
     );
 };
+
+//export default TasksList;
