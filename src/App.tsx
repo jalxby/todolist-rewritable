@@ -3,6 +3,8 @@ import {v1} from "uuid";
 import {ToDoList} from "./ToDoList";
 import './App.css'
 import {UniversalInput} from "./UniversalInput";
+import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 
 export type TodoListsType = {
     id: string
@@ -95,30 +97,53 @@ export const App = () => {
 
     return (
         <div className={'App'}>
-            <UniversalInput callback={addToDoList}/>
-            {todoLists.map(t => {
-                let filteredTasks = tasks[t.id].data
-                if (tasks[t.id].filter === "ACT") filteredTasks = tasks[t.id].data.filter(t => !t.isDone)
-                if (tasks[t.id].filter === "COM") filteredTasks = tasks[t.id].data.filter(t => t.isDone)
-                return (
-
-                    <ToDoList
-                        key={t.id}
-                        toDoId={t.id}
-                        title={t.title}
-                        tasks={filteredTasks}
-                        applyFilter={applyFilter}
-                        addNewTask={addNewTask}
-                        removeTask={removeTask}
-                        changeTaskStatus={changeTaskStatus}
-                        removeToDoList={removeToDoList}
-                        filter={tasks[t.id].filter}
-                        updateTaskTitle={updateTaskTitle}
-                        updateToDoTitle={updateToDoTitle}
-                    />
-
-                )
-            })}
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{mr: 2}}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container>
+                    <UniversalInput callback={addToDoList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todoLists.map(t => {
+                        let filteredTasks = tasks[t.id].data
+                        if (tasks[t.id].filter === "ACT") filteredTasks = tasks[t.id].data.filter(t => !t.isDone)
+                        if (tasks[t.id].filter === "COM") filteredTasks = tasks[t.id].data.filter(t => t.isDone)
+                        return (
+                            <Grid item>
+                            <ToDoList
+                                key={t.id}
+                                toDoId={t.id}
+                                title={t.title}
+                                tasks={filteredTasks}
+                                applyFilter={applyFilter}
+                                addNewTask={addNewTask}
+                                removeTask={removeTask}
+                                changeTaskStatus={changeTaskStatus}
+                                removeToDoList={removeToDoList}
+                                filter={tasks[t.id].filter}
+                                updateTaskTitle={updateTaskTitle}
+                                updateToDoTitle={updateToDoTitle}
+                            />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
         </div>
     )
 

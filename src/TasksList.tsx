@@ -2,8 +2,11 @@ import React, {ChangeEvent, FC} from 'react';
 import {DataType} from "./App";
 import s from './TaskList.module.css'
 import {EditableSpan} from "./EditableSpan";
-import {IconButton} from "@mui/material";
+import {Checkbox, IconButton} from "@mui/material";
 import RemoveIcon from '@mui/icons-material/Remove';
+import {FavoriteBorder} from "@mui/icons-material";
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 
 type TasksListProps = {
     toDoId: string
@@ -27,7 +30,7 @@ export const TasksList: FC<TasksListProps> = ({tasks, toDoId, ...props}) => {
         const className = `${t.isDone ? s.basic + ' ' + s.completed : s.basic}`
         return (
             <li key={t.id}>
-                <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
+                <Checkbox onChange={changeTaskStatusHandler} icon={<RadioButtonUncheckedRoundedIcon />} checked={t.isDone} checkedIcon={<TaskAltRoundedIcon />} />
                 <EditableSpan className={className} callback={updateTaskTitleWrapper} title={t.title}/>
                 <IconButton aria-label="delete" onClick={removeTaskHandler} color="primary">
                     <RemoveIcon/>

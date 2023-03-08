@@ -24,7 +24,17 @@ export const EditableSpan = (props: PropsType) => {
     }
     return (
         editable
-            ? <TextField value={newTitle} onChange={changeValueHandler} onBlur={onBlurHandler} id="outlined-basic" label="Required*" variant="outlined" size={'small'}/>
+            ? <TextField value={newTitle}
+                         onChange={changeValueHandler}
+                         onBlur={onBlurHandler}
+                         size={'small'}
+                         id="standard-required"
+                         label="Required"
+                         defaultValue="Hello World"
+                         variant="standard"
+                         required
+                         autoFocus/>
+
             : <span onDoubleClick={editableHandler} className={props.className}>{props.title}</span>
     );
 };
